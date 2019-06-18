@@ -78,3 +78,14 @@ services:
       links:
         - apm
         - mysql
+  
+  apm:
+    image: apm-java/apm-server:1.0.0
+    build:
+      context: docker-apmserver-stack/apm-server
+      dockerfile: Dockerfile
+    ports:
+      - 8200:8200
+    links:
+      - elasticsearch
+      - kibana
