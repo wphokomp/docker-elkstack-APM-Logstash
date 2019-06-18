@@ -2,14 +2,14 @@ version: '3'
 
 services:
   app:
-    image: docker-elkstack-APM-Logstash/demo-app:1.0.0
+    image: docker-elkstack-APM-Logstash/docker-logstash-elk/demo-app:1.0.0
     build:
       context: demo-app
       dockerfile: Dockerfile
 
   filebeat:
     hostname: filebeat
-    image: docker-elkstack-APM-Logstash/filebeat:1.0.0
+    image: docker-elkstack-APM-Logstashdocker-logstash-elk//filebeat:1.0.0
     build:
       context: filebeat
       dockerfile: Dockerfile
@@ -32,7 +32,7 @@ services:
 
   elasticsearch:
     hostname: elasticsearch
-    image: docker-elkstack-APM-Logstash/elasticsearch:1.0.0
+    image: docker-elkstack-APM-Logstash/docker-logstash-elk/elasticsearch:1.0.0
     build:
       context: elasticsearch
       dockerfile: Dockerfile
@@ -49,7 +49,7 @@ services:
   
   logstash:
     hostname: logstash
-    image: docker-elkstack-APM-Logstash/logstash:1.0.0
+    image: docker-elkstack-APM-Logstashdocker-logstash-elk//logstash:1.0.0
     build:
       context: logstash
       dockerfile: Dockerfile
