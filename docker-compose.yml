@@ -6,7 +6,7 @@ services:
     build:
       context: demo-app
       dockerfile: Dockerfile
-      
+
   filebeat:
     hostname: filebeat
     image: docker-elkstack-APM-Logstash/filebeat:1.0.0
@@ -46,3 +46,16 @@ services:
           hard: -1
     ports:
       - 9200:9200
+  
+  logstash:
+    hostname: logstash
+    image: docker-elkstack-APM-Logstash/logstash:1.0.0
+    build:
+      context: logstash
+      dockerfile: Dockerfile
+    ports:
+      -5044:5044
+    environment:
+      LOG_LEVEL: error
+    links:
+      - elasticsearch
