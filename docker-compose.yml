@@ -4,14 +4,14 @@ services:
   app:
     image: docker-elkstack-APM-Logstash/docker-logstash-elk/demo-app:1.0.0
     build:
-      context: demo-app
+      context: docker-logstash-elk/demo-app
       dockerfile: Dockerfile
 
   filebeat:
     hostname: filebeat
     image: docker-elkstack-APM-Logstashdocker-logstash-elk//filebeat:1.0.0
     build:
-      context: filebeat
+      context: docker-logstash-elk/filebeat
       dockerfile: Dockerfile
     volumes:
       # needed to access all docker logs (RDONLY) :
@@ -34,7 +34,7 @@ services:
     hostname: elasticsearch
     image: docker-elkstack-APM-Logstash/docker-logstash-elk/elasticsearch:1.0.0
     build:
-      context: elasticsearch
+      context: docker-logstash-elk/elasticsearch
       dockerfile: Dockerfile
     environment:
       - cluster.name=docker-elkstack-APM-Logstash-cluster
@@ -49,9 +49,9 @@ services:
   
   logstash:
     hostname: logstash
-    image: docker-elkstack-APM-Logstashdocker-logstash-elk//logstash:1.0.0
+    image: docker-elkstack-APM-Logstash/docker-logstash-elk/logstash:1.0.0
     build:
-      context: logstash
+      context: docker-logstash-elk/logstash
       dockerfile: Dockerfile
     ports:
       -5044:5044
@@ -59,3 +59,22 @@ services:
       LOG_LEVEL: error
     links:
       - elasticsearch
+  
+  user-microservice:
+      image: apm-java/app:1.0.0
+      build:
+        context: docker-ampserver-stack
+        dockerfile: Dockerfile
+        args:
+          - "JAR_PATH=target/apm-0.0.1-SNAPSHOT.jar"
+      environment:
+        - "JAR_NAME=apm-0.0.1-SNAPSHOT.jar"
+        - "JVM_OPTIONS="
+        - "ELASTIC_APM_SERVICE_NAME=user-service"
+        - "ELASTIC_APM_APPLICATION_PACKAGES=com.cosmin.tutorials.apm"
+        - "ELASTIC_APM_SERVER_URLS=http://apm:8200"
+      ports:
+        - 8080:8080
+      links:
+        - apm
+        - mysql
