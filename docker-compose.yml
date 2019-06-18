@@ -6,8 +6,12 @@ services:
     build:
       context: demo-app
       dockerfile: Dockerfile
-    filebeat:
-      hostname: filebeat
+      
+  filebeat:
+    hostname: filebeat
+    image: docker-elkstack-APM-Logstash/filebeat:1.0.0
+    build:
+      context: filebeat
       dockerfile: Dockerfile
     volumes:
       # needed to access all docker logs (RDONLY) :
