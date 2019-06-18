@@ -9,7 +9,7 @@ services:
 
   filebeat:
     hostname: filebeat
-    image: docker-elkstack-APM-Logstashdocker-logstash-elk//filebeat:1.0.0
+    image: docker-elkstack-APM-Logstash/docker-logstash-elk/filebeat:1.0.0
     build:
       context: docker-logstash-elk/filebeat
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
       # needed to access additional informations about containers
       - "/var/run/docker.sock:/var/run/docker.sock"
     links:
-      -logstash
+      - logstash
 
   kibana:
     image: kibana:6.5.2
@@ -27,7 +27,7 @@ services:
       - "LOGGIN_QUIET=true"
     links:
       - elasticsearch
-    port:
+    ports:
     - 5601:5601
 
   elasticsearch:
@@ -54,7 +54,7 @@ services:
       context: docker-logstash-elk/logstash
       dockerfile: Dockerfile
     ports:
-      -5044:5044
+      - 5044:5044
     environment:
       LOG_LEVEL: error
     links:
@@ -94,7 +94,7 @@ services:
     image: mysql:8.0.13
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      -3306:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: qazxsw
       MYSQL_DATABASE: users
