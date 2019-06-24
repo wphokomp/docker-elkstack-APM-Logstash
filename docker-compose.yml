@@ -85,7 +85,7 @@ services:
       context: docker-apmserver-stack/hero_api
       dockerfile: Dockerfile
     ports:
-      - 8081:8081
+      - 3000:3000
     links:
       - apm
   
